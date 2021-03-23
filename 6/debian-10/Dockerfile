@@ -44,7 +44,7 @@ ENV ALLOW_EMPTY_PASSWORD="no" \
     WILDFLY_WILDFLY_HOME="/home/wildfly" \
     WILDFLY_WILDFLY_OPTS="-Dwildfly.as.deployment.ondemand=false"
 
-EXPOSE 8080 9990
+EXPOSE 8080 9990 8009
 
 USER 1001
 ENTRYPOINT [ "/opt/bitnami/scripts/ejbca/entrypoint.sh" ]
