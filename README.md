@@ -143,7 +143,7 @@ You can also do this with a minor change to the [`docker-compose.yml`](https://g
 # Configuration
 
 The EJBCA instance can be customized by specifying environment variables on the first run. The following environment variables are available:
-
+- `EJBCA_AJP_PORT_NUMBER`: AJP port number. Defauls to `8009`.
 - `EJBCA_HTTP_PORT_NUMBER`: HTTP port number. Defaults to `8080`.
 - `EJBCA_HTTPS_PORT_NUMBER`: HTTPS port number. Default to `8443`.
 - `EJBCA_HTTPS_ADVERTISED_PORT_NUMBER`: Port number used in the rendered URLs for the admistrator login. Default to `8443`.
