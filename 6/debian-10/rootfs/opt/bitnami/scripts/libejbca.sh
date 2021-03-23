@@ -171,6 +171,7 @@ ejbca_configure_wildfly_https() {
     ejbca_wildfly_command "/socket-binding-group=standard-sockets/socket-binding=http:add(port=\"$EJBCA_HTTP_PORT_NUMBER\",interface=\"http\")"
     ejbca_wildfly_command '/socket-binding-group=standard-sockets/socket-binding=httpspub:add(port="8442",interface="httpspub")'
     ejbca_wildfly_command "/socket-binding-group=standard-sockets/socket-binding=httpspriv:add(port=\"$EJBCA_HTTPS_PORT_NUMBER\",interface=\"httpspriv\")"
+    ejbca_wildfly_command "/socket-binding-group=standard-sockets/socket-binding=ajp:add(port=\"$EJBCA_AJP_PORT_NUMBER\")"
 
     info "Configure TLS"
     ejbca_wildfly_command "/subsystem=elytron/key-store=httpsKS:add(path=\"keystore.jks\",relative-to=jboss.server.config.dir,credential-reference={clear-text=\"$EJBCA_KEYSTORE_PASSWORD\"},type=JKS)"
@@ -180,10 +181,11 @@ ejbca_configure_wildfly_https() {
     ejbca_wildfly_command '/subsystem=elytron/server-ssl-context=httpspub:add(key-manager=httpsKM,protocols=["TLSv1.2"])'
     ejbca_wildfly_command '/subsystem=elytron/server-ssl-context=httpspriv:add(key-manager=httpsKM,protocols=["TLSv1.2"],trust-manager=httpsTM,need-client-auth=false,authentication-optional=true,want-client-auth=true)'
 
-    info "Add HTTP(S) Listeners"
+    info "Add HTTP(S) and AJP Listeners"
     ejbca_wildfly_command '/subsystem=undertow/server=default-server/http-listener=http:add(socket-binding="http", redirect-socket="httpspriv")'
     ejbca_wildfly_command '/subsystem=undertow/server=default-server/https-listener=httpspub:add(socket-binding="httpspub", ssl-context="httpspub", max-parameters=2048)'
     ejbca_wildfly_command '/subsystem=undertow/server=default-server/https-listener=httpspriv:add(socket-binding="httpspriv", ssl-context="httpspriv", max-parameters=2048)'
+    ejbca_wildfly_command "/subsystem=undertow/server=default-server/ajp-listener=ajp-listener:add(socket-binding=ajp, scheme=https, enabled=true)"
     ejbca_wildfly_command ':reload'
     wait_for_wildfly
 
