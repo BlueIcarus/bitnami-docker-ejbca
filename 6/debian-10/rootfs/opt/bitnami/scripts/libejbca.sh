@@ -258,7 +258,7 @@ ejbca_custom_scripts() {
             echo "Executing file: ${f}"
             bash "${f}"
         done
-    done
+    fi
 }
 
 #######################
