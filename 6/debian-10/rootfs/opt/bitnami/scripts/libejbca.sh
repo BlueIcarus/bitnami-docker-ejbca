@@ -136,6 +136,17 @@ ejbca_configure_wildfly() {
     ejbca_wildfly_command ':reload'
     wait_for_wildfly
 
+    info "Configure email"
+    ejbca_wildfly_command "/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejbca-mail-smtp:add(port=\"${EJBCA_SMTP_PORT}\", host=\"${EJBCA_SMTP_HOST}\")"
+    ejbca_wildfly_command "/subsystem=mail/mail-session=\"java:/EjbcaMail\":add(jndi-name=java:/EjbcaMail, from=${EJBCA_SMTP_FROM_ADDRESS})"
+    if [[ ! -z "$EJBCA_SMTP_USERNAME" ]]; then
+        ejbca_wildfly_command "/subsystem=mail/mail-session=\"java:/EjbcaMail\"/server=smtp:add(outbound-socket-binding-ref=ejbca-mail-smtp, tls=${EJBCA_SMTP_TLS}, username=\"${EJBCA_SMTP_USERNAME}\", password=\"${EJBCA_SMTP_PASSWORD}\")"
+    else
+        ejbca_wildfly_command "/subsystem=mail/mail-session=\"java:/EjbcaMail\"/server=smtp:add(outbound-socket-binding-ref=ejbca-mail-smtp, tls=${EJBCA_SMTP_TLS}\")"
+    fi
+    ejbca_wildfly_command ':reload'
+    wait_for_wildfly
+
     info "Configure redirection"
     ejbca_wildfly_command '/subsystem=undertow/server=default-server/host=default-host/location="\/":remove()'
     ejbca_wildfly_command '/subsystem=undertow/configuration=handler/file=welcome-content:remove()'
@@ -171,7 +182,6 @@ ejbca_configure_wildfly_https() {
     ejbca_wildfly_command "/socket-binding-group=standard-sockets/socket-binding=http:add(port=\"$EJBCA_HTTP_PORT_NUMBER\",interface=\"http\")"
     ejbca_wildfly_command '/socket-binding-group=standard-sockets/socket-binding=httpspub:add(port="8442",interface="httpspub")'
     ejbca_wildfly_command "/socket-binding-group=standard-sockets/socket-binding=httpspriv:add(port=\"$EJBCA_HTTPS_PORT_NUMBER\",interface=\"httpspriv\")"
-    ejbca_wildfly_command "/socket-binding-group=standard-sockets/socket-binding=ajp:add(port=\"$EJBCA_AJP_PORT_NUMBER\")"
 
     info "Configure TLS"
     ejbca_wildfly_command "/subsystem=elytron/key-store=httpsKS:add(path=\"keystore.jks\",relative-to=jboss.server.config.dir,credential-reference={clear-text=\"$EJBCA_KEYSTORE_PASSWORD\"},type=JKS)"
@@ -237,6 +247,16 @@ ejbca_start_wildfly_bg() {
 ejbca_stop_wildfly() {
     info "Stopping wildfly..."
     ejbca_wildfly_command ":shutdown"
+}
+
+ejbca_custom_scripts() {
+    info "Running custom scripts..."
+    FILES=/bitnami/custom-scripts/*
+    for f in ${FILES}
+    do
+        echo "Executing file: ${f}"
+        bash "${f}"
+    done
 }
 
 #######################
@@ -607,6 +627,8 @@ ejbca_initialize() {
     fi
 
     ejbca_configure_wildfly_https
+
+    ejbca_custom_scripts
 
     ejbca_stop_wildfly
 
