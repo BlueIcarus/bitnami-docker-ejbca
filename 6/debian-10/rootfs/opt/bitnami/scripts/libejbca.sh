@@ -251,11 +251,13 @@ ejbca_stop_wildfly() {
 
 ejbca_custom_scripts() {
     info "Running custom scripts..."
-    FILES=/bitnami/custom-scripts/*
-    for f in ${FILES}
-    do
-        echo "Executing file: ${f}"
-        bash "${f}"
+    if [[ -d "/bitnami/custom-scripts/" ]]; then
+        FILES=/bitnami/custom-scripts/*
+        for f in ${FILES}
+        do
+            echo "Executing file: ${f}"
+            bash "${f}"
+        done
     done
 }
 
