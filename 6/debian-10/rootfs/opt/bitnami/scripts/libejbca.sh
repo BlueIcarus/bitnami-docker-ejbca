@@ -142,7 +142,7 @@ ejbca_configure_wildfly() {
     if [[ ! -z "$EJBCA_SMTP_USERNAME" ]]; then
         ejbca_wildfly_command "/subsystem=mail/mail-session=\"java:/EjbcaMail\"/server=smtp:add(outbound-socket-binding-ref=ejbca-mail-smtp, tls=${EJBCA_SMTP_TLS}, username=\"${EJBCA_SMTP_USERNAME}\", password=\"${EJBCA_SMTP_PASSWORD}\")"
     else
-        ejbca_wildfly_command "/subsystem=mail/mail-session=\"java:/EjbcaMail\"/server=smtp:add(outbound-socket-binding-ref=ejbca-mail-smtp, tls=${EJBCA_SMTP_TLS}\")"
+        ejbca_wildfly_command "/subsystem=mail/mail-session=\"java:/EjbcaMail\"/server=smtp:add(outbound-socket-binding-ref=ejbca-mail-smtp, tls=${EJBCA_SMTP_TLS})"
     fi
     ejbca_wildfly_command ':reload'
     wait_for_wildfly
