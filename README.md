@@ -1,21 +1,29 @@
-# What is EJBCA?
+# EJBCA packaged by Bitnami
 
-> [EJBCA](https://www.ejbca.org/) is a free software public key infrastructure certificate authority software package.
+## What is EJBCA?
 
-# TL;DR
+> EJBCA is an enterprise class PKI Certificate Authority software, built using Java (JEE) technology.
+
+[Overview of EJBCA](http://www.ejbca.org)
+
+Trademarks: This software listing is packaged by Bitnami. The respective trademarks mentioned in the offering are owned by the respective companies, and use of them does not imply any affiliation or endorsement.
+
+## TL;DR
 
 ```console
 $ docker run --name ejbca bitnami/ejbca:latest
 ```
 
-## Docker Compose
+### Docker Compose
 
 ```console
 $ curl -sSL https://raw.githubusercontent.com/bitnami/bitnami-docker-ejbca/master/docker-compose.yml > docker-compose.yml
 $ docker-compose up -d
 ```
 
-# Why use Bitnami Images?
+**Warning**: This quick setup is only intended for development environments. You are encouraged to change the insecure default credentials and check out the available configuration options in the [Configuration](#configuration) section for a more secure deployment.
+
+## Why use Bitnami Images?
 
 * Bitnami closely tracks upstream source changes and promptly publishes new versions of this image using our automated systems.
 * With Bitnami images the latest bug fixes and features are available as soon as possible.
@@ -26,20 +34,20 @@ $ docker-compose up -d
 
 > This [CVE scan report](https://quay.io/repository/bitnami/ejbca?tab=tags) contains a security report with all open CVEs. To get the list of actionable security issues, find the "latest" tag, click the vulnerability report link under the corresponding "Security scan" field and then select the "Only show fixable" filter on the next page.
 
-# Why use a non-root container?
+## Why use a non-root container?
 
 Non-root container images add an extra layer of security and are generally recommended for production environments. However, because they run as a non-root user, privileged tasks are typically off-limits. Learn more about non-root containers [in our docs](https://docs.bitnami.com/containers/how-to/work-with-non-root-containers/).
 
-# Supported tags and respective `Dockerfile` links
+## Supported tags and respective `Dockerfile` links
 
 Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://docs.bitnami.com/containers/how-to/understand-rolling-tags-containers/).
 
 
-* [`6`, `6-debian-10`, `6.15.2-6`, `6.15.2-6-debian-10-r205`, `latest` (6/debian-10/Dockerfile)](https://github.com/bitnami/bitnami-docker-ejbca/blob/6.15.2-6-debian-10-r205/6/debian-10/Dockerfile)
+* [`7`, `7-debian-10`, `7.4.3-2`, `7.4.3-2-debian-10-r60`, `latest` (7/debian-10/Dockerfile)](https://github.com/bitnami/bitnami-docker-ejbca/blob/7.4.3-2-debian-10-r60/7/debian-10/Dockerfile)
 
 Subscribe to project updates by watching the [bitnami/ejbca GitHub repo](https://github.com/bitnami/bitnami-docker-ejbca).
 
-# Get this image
+## Get this image
 
 The recommended way to get the Bitnami EJBCA Docker Image is to pull the prebuilt image from the [Docker Hub Registry](https://hub.docker.com/r/bitnami/ejbca).
 
@@ -56,14 +64,14 @@ $ docker pull bitnami/ejbca:[TAG]
 If you wish, you can also build the image yourself.
 
 ```console
-$ docker build -t bitnami/ejbca:latest 'https://github.com/bitnami/bitnami-docker-ejbca.git#master:6/debian-10'
+$ docker build -t bitnami/ejbca:latest 'https://github.com/bitnami/bitnami-docker-ejbca.git#master:7/debian-10'
 ```
 
-# How to use this image
+## How to use this image
 
 EJBCA requires access to a MySQL or MariaDB database to store information. We'll use our very own [MariaDB image](https://www.github.com/bitnami/bitnami-docker-mariadb) for the database requirements.
 
-## Run the application using Docker Compose
+### Run the application using Docker Compose
 
 The main folder of this repository contains a functional [`docker-compose.yml`](https://github.com/bitnami/bitnami-docker-ejbca/blob/master/docker-compose.yml) file. Run the application using it as shown below:
 
@@ -72,17 +80,17 @@ $ curl -sSL https://raw.githubusercontent.com/bitnami/bitnami-docker-ejbca/maste
 $ docker-compose up -d
 ```
 
-## Using the Docker Command Line
+### Using the Docker Command Line
 
 If you want to run the application manually instead of using `docker-compose`, these are the basic steps you need to run:
 
-### Step 1: Create a network
+#### Step 1: Create a network
 
 ```console
 $ docker network create ejbca-network
 ```
 
-### Step 2: Create a volume for MariaDB persistence and create a MariaDB container
+#### Step 2: Create a volume for MariaDB persistence and create a MariaDB container
 
 ```console
 $ docker volume create --name mariadb_data
@@ -96,7 +104,7 @@ $ docker run -d --name mariadb \
   bitnami/mariadb:latest
 ```
 
-### Step 3: Create volumes for EJBCA persistence and launch the container
+#### Step 3: Create volumes for EJBCA persistence and launch the container
 
 ```console
 $ docker volume create --name ejbca_data
@@ -112,9 +120,9 @@ $ docker run -d --name ejbca \
   bitnami/ejbca:latest
 ```
 
-Access your application at http://your-ip:8080/ejbca/
+Access your application at `http://your-ip:8080/ejbca/`
 
-# Persisting your application
+## Persisting your application
 
 If you remove the container all your data will be lost, and the next time you run the image the database will be reinitialized. To avoid this loss of data, you should mount a volume that will persist even after the container is removed.
 
@@ -140,10 +148,10 @@ You can also do this with a minor change to the [`docker-compose.yml`](https://g
 -    driver: local
 ```
 
-# Configuration
+## Configuration
 
 The EJBCA instance can be customized by specifying environment variables on the first run. The following environment variables are available:
-- `EJBCA_AJP_PORT_NUMBER`: AJP port number. Defauls to `8009`.
+
 - `EJBCA_HTTP_PORT_NUMBER`: HTTP port number. Defaults to `8080`.
 - `EJBCA_HTTPS_PORT_NUMBER`: HTTPS port number. Default to `8443`.
 - `EJBCA_HTTPS_ADVERTISED_PORT_NUMBER`: Port number used in the rendered URLs for the admistrator login. Default to `8443`.
@@ -159,14 +167,8 @@ The EJBCA instance can be customized by specifying environment variables on the 
 - `JAVA_OPTS`: Java options. Defaults to `-Xms2048m -Xmx2048m -XX:MetaspaceSize=192M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true -Dhibernate.dialect=org.hibernate.dialect.MySQL5Dialect -Dhibernate.dialect.storage_engine=innodb`.
 - `EJBCA_SERVER_CERT_FILE`: User provided keystore file. No defaults.
 - `EJBCA_SERVER_CERT_PASSWORD`: User provided keystore file password. No defaults.
-- `EJBCA_SMTP_HOST`: SMTP Email server address. Defaults to `localhost`.
-- `EJBCA_SMTP_PORT`: SMTP Email server port. Defaults to `25`.
-- `EJBCA_SMTP_FROM_ADDRESS`: SMTP from email address. Defaults to `ejbca-donotreply@domain.com`.
-- `EJBCA_SMTP_TLS`: SMTP TLS authentication: Defaults to `false`.
-- `EJBCA_SMTP_USERNAME`: SMTP authentication username. No defaults.
-- `EJBCA_SMTP_PASSWORD`: SMTP authentication password. No defaults.
 
-# Logging
+## Logging
 
 The Bitnami EJBCA Docker image sends the container logs to `stdout`. To view the logs:
 
@@ -176,27 +178,19 @@ $ docker logs ejbca
 
 You can configure the containers [logging driver](https://docs.docker.com/engine/admin/logging/overview/) using the `--log-driver` option if you wish to consume the container logs differently. In the default configuration docker uses the `json-file` driver.
 
+## Maintenance
 
-# Custom scripts
-
-The Bitnami EJBCA Docker image contains functions to execute any shell scripts after startup. These scripts are executed during the initalization of the EJBCA Wildfly installation.
-
-You can add custom script into the `/bitnami/custom-scripts` directory. All files in the directory will be executed using bash.
-
-
-# Maintenance
-
-## Upgrade this image
+### Upgrade this image
 
 Bitnami provides up-to-date versions of EJBCA, including security patches, soon after they are made upstream. We recommend that you follow these steps to upgrade your container.
 
-### Step 1: Get the updated image
+#### Step 1: Get the updated image
 
 ```console
 $ docker pull bitnami/ejbca:latest
 ```
 
-### Step 2: Stop the running container
+#### Step 2: Stop the running container
 
 Stop the currently running container using the command
 
@@ -204,13 +198,13 @@ Stop the currently running container using the command
 $ docker stop ejbca
 ```
 
-### Step 3: Remove the currently running container
+#### Step 3: Remove the currently running container
 
 ```console
 $ docker rm -v ejbca
 ```
 
-### Step 4: Run the new image
+#### Step 4: Run the new image
 
 Re-create your container from the new image.
 
@@ -218,11 +212,11 @@ Re-create your container from the new image.
 $ docker run --name ejbca bitnami/ejbca:latest
 ```
 
-# Contributing
+## Contributing
 
 We'd love for you to contribute to this container. You can request new features by creating an [issue](https://github.com/bitnami/bitnami-docker-ejbca/issues), or submit a [pull request](https://github.com/bitnami/bitnami-docker-ejbca/pulls) with your contribution.
 
-# Issues
+## Issues
 
 If you encountered a problem running this container, you can file an [issue](https://github.com/bitnami/bitnami-docker-ejbca/issues). For us to provide better support, be sure to include the following information in your issue:
 
@@ -232,7 +226,7 @@ If you encountered a problem running this container, you can file an [issue](htt
 - Version of this container
 - The command you used to run the container, and any relevant output you saw (masking any sensitive information)
 
-# License
+## License
 
 Copyright (c) 2021 Bitnami
 
