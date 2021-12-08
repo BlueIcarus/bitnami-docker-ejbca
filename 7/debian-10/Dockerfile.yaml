@@ -1,3 +1,0 @@
-bitnami:
-    container_name: "bitnami/ejbca"
-    description: "Build the Bitnami EJBCA docker container"
