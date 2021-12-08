@@ -138,7 +138,7 @@ ejbca_configure_wildfly() {
 
     info "Configure email"
     ejbca_wildfly_command "/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejbca-mail-smtp:add(port=\"${EJBCA_SMTP_PORT}\", host=\"${EJBCA_SMTP_HOST}\")"
-    ejbca_wildfly_command "/subsystem=mail/mail-session=\"java:/EjbcaMail\":add(jndi-name=java:/EjbcaMail, from=${EJBCA_SMTP_FROM_ADDRESS})"
+    ejbca_wildfly_command "/subsystem=mail/mail-session=\"java:/EjbcaMail\":add(jndi-name=java:/EjbcaMail, from=\"${EJBCA_SMTP_FROM_ADDRESS}\")"
     if [[ ! -z "$EJBCA_SMTP_USERNAME" ]]; then
         ejbca_wildfly_command "/subsystem=mail/mail-session=\"java:/EjbcaMail\"/server=smtp:add(outbound-socket-binding-ref=ejbca-mail-smtp, tls=${EJBCA_SMTP_TLS}, username=\"${EJBCA_SMTP_USERNAME}\", password=\"${EJBCA_SMTP_PASSWORD}\")"
     else
@@ -251,12 +251,14 @@ ejbca_stop_wildfly() {
 
 ejbca_custom_scripts() {
     info "Running custom scripts..."
-    FILES=/bitnami/custom-scripts/*
-    for f in ${FILES}
-    do
-        echo "Executing file: ${f}"
-        bash "${f}"
-    done
+    if [[ -d "/bitnami/custom-scripts/" ]]; then
+        FILES=/bitnami/custom-scripts/*
+        for f in ${FILES}
+        do
+            echo "Executing file: ${f}"
+            bash "${f}"
+        done
+    fi
 }
 
 #######################
