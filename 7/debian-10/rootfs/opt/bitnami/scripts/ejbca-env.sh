@@ -65,7 +65,7 @@ export EJBCA_DATABASE_SCRIPTS_DIR="${EJBCA_BASE_DIR}/sql-scripts"
 
 # Persitence
 export EJBCA_VOLUME_DIR="${BITNAMI_VOLUME_DIR}/ejbca"
-export EJBCA_CUSTOM_SCRIPTS_DIR="${BITNAMI_VOLUME_DIR}/custom-scripts"
+export EJBCA_CUSTOM_SCRIPTS_DIR="/docker-entrypoint-init.d"
 export EJBCA_DATA_DIR="${EJBCA_VOLUME_DIR}/tls"
 
 # DB scripts
