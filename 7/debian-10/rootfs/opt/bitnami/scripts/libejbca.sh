@@ -251,8 +251,8 @@ ejbca_stop_wildfly() {
 
 ejbca_custom_scripts() {
     info "Running custom scripts..."
-    if [[ -d "/bitnami/custom-scripts/" ]]; then
-        FILES=/bitnami/custom-scripts/*
+    if [[ -d "/docker-entrypoint-init.d" ]]; then
+        FILES=/docker-entrypoint-init.d/*
         for f in ${FILES}
         do
             echo "Executing file: ${f}"
