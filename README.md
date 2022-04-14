@@ -43,7 +43,7 @@ Non-root container images add an extra layer of security and are generally recom
 Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://docs.bitnami.com/containers/how-to/understand-rolling-tags-containers/).
 
 
-* [`7`, `7-debian-10`, `7.4.3-2`, `7.4.3-2-debian-10-r60`, `latest` (7/debian-10/Dockerfile)](https://github.com/bitnami/bitnami-docker-ejbca/blob/7.4.3-2-debian-10-r60/7/debian-10/Dockerfile)
+* [`7`, `7-debian-10`, `7.4.3-2`, `7.4.3-2-debian-10-r138`, `latest` (7/debian-10/Dockerfile)](https://github.com/bitnami/bitnami-docker-ejbca/blob/7.4.3-2-debian-10-r138/7/debian-10/Dockerfile)
 
 Subscribe to project updates by watching the [bitnami/ejbca GitHub repo](https://github.com/bitnami/bitnami-docker-ejbca).
 
@@ -116,7 +116,7 @@ $ docker run -d --name ejbca \
   --env EJBCA_DATABASE_HOST=mariadb \
   --env EJBCA_DATABASE_NAME=bitnami_ejbca \
   --network ejbca-network \
-  --volume ejbca_data:/bitnami/ejbca \
+  --volume wildfly_data:/bitnami/wildfly \
   bitnami/ejbca:latest
 ```
 
@@ -126,11 +126,11 @@ Access your application at `http://your-ip:8080/ejbca/`
 
 If you remove the container all your data will be lost, and the next time you run the image the database will be reinitialized. To avoid this loss of data, you should mount a volume that will persist even after the container is removed.
 
-For persistence you should mount a directory at the `/bitnami/ejbca` path. If the mounted directory is empty, it will be initialized on the first run.
+For persistence you should mount a directory at the `/bitnami/wildfly` path. If the mounted directory is empty, it will be initialized on the first run.
 
 ```console
 $ docker run \
-    -v /path/to/ejbca-persistence:/bitnami/ejbca \
+    -v /path/to/ejbca-persistence:/bitnami/wildfly \
     bitnami/ejbca:latest
 ```
 
@@ -140,8 +140,8 @@ You can also do this with a minor change to the [`docker-compose.yml`](https://g
    ejbca:
      ...
      volumes:
--      - 'ejbca_data:/bitnami/ejbca'
-+      - /path/to/ejbca-persistence:/bitnami/ejbca
+-      - 'wildfly_data:/bitnami/wildfly'
++      - /path/to/ejbca-persistence:/bitnami/wildfly
    ...
 -volumes:
 -  ejbca_data:
@@ -224,6 +224,16 @@ Re-create your container from the new image.
 $ docker run --name ejbca bitnami/ejbca:latest
 ```
 
+## Notable Changes
+
+### 7.4.3-2-debian-10-r68
+
+The persistence has been refactorized and the volume mount point was moved from `/bitnami/ejbca` to `/bitnami/wildfly`.
+
+In previous versions only password files were persisted, making the container was unable to restart. The initialization logic has been changed as well as the persisted data directories. The Wildlfy configuration and data directories are now persisted, making the container able to automatically restart.
+The time that the container takes to restart has also been improved.
+Due to the mentioned changes, the automatic upgrade from previous image versions is not supported and requires a manual migration.
+
 ## Contributing
 
 We'd love for you to contribute to this container. You can request new features by creating an [issue](https://github.com/bitnami/bitnami-docker-ejbca/issues), or submit a [pull request](https://github.com/bitnami/bitnami-docker-ejbca/pulls) with your contribution.
@@ -240,7 +250,7 @@ If you encountered a problem running this container, you can file an [issue](htt
 
 ## License
 
-Copyright (c) 2021 Bitnami
+Copyright &copy; 2022 Bitnami
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
