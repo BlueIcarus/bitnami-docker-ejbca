@@ -186,9 +186,9 @@ You can configure the containers [logging driver](https://docs.docker.com/engine
 
 ## Custom scripts
 
-The Bitnami EJBCA Docker image contains functions to execute any shell scripts after startup. These scripts are executed during the initalization of the EJBCA Wildfly installation.
+The Bitnami EJBCA Docker image contains functions to execute any shell scripts after startup. These scripts are executed during the initialization of the EJBCA Wildfly installation.
 
-You can add custom script into the `/bitnami/custom-scripts` directory. All files in the directory will be executed using bash.
+You can add custom script into the `/docker-entrypoint-init.d` directory. All files in the directory will be executed using bash.
 
 ## Maintenance
 
