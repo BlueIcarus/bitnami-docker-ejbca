@@ -32,8 +32,6 @@ $ docker-compose up -d
 * All Bitnami images available in Docker Hub are signed with [Docker Content Trust (DCT)](https://docs.docker.com/engine/security/trust/content_trust/). You can use `DOCKER_CONTENT_TRUST=1` to verify the integrity of the images.
 * Bitnami container images are released daily with the latest distribution packages available.
 
-> This [CVE scan report](https://quay.io/repository/bitnami/ejbca?tab=tags) contains a security report with all open CVEs. To get the list of actionable security issues, find the "latest" tag, click the vulnerability report link under the corresponding "Security scan" field and then select the "Only show fixable" filter on the next page.
-
 ## Why use a non-root container?
 
 Non-root container images add an extra layer of security and are generally recommended for production environments. However, because they run as a non-root user, privileged tasks are typically off-limits. Learn more about non-root containers [in our docs](https://docs.bitnami.com/containers/how-to/work-with-non-root-containers/).
@@ -43,7 +41,7 @@ Non-root container images add an extra layer of security and are generally recom
 Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://docs.bitnami.com/containers/how-to/understand-rolling-tags-containers/).
 
 
-* [`7`, `7-debian-10`, `7.4.3-2`, `7.4.3-2-debian-10-r138`, `latest` (7/debian-10/Dockerfile)](https://github.com/bitnami/bitnami-docker-ejbca/blob/7.4.3-2-debian-10-r138/7/debian-10/Dockerfile)
+* [`7`, `7-debian-10`, `7.4.3-2`, `7.4.3-2-debian-10-r162`, `latest` (7/debian-10/Dockerfile)](https://github.com/bitnami/bitnami-docker-ejbca/blob/7.4.3-2-debian-10-r162/7/debian-10/Dockerfile)
 
 Subscribe to project updates by watching the [bitnami/ejbca GitHub repo](https://github.com/bitnami/bitnami-docker-ejbca).
 
@@ -116,7 +114,7 @@ $ docker run -d --name ejbca \
   --env EJBCA_DATABASE_HOST=mariadb \
   --env EJBCA_DATABASE_NAME=bitnami_ejbca \
   --network ejbca-network \
-  --volume wildfly_data:/bitnami/wildfly \
+  --volume ejbca_data:/bitnami/wildfly \
   bitnami/ejbca:latest
 ```
 
@@ -169,7 +167,7 @@ The EJBCA instance can be customized by specifying environment variables on the 
 - `EJBCA_SERVER_CERT_PASSWORD`: User provided keystore file password. No defaults.
 - `EJBCA_SMTP_HOST`: SMTP Email server address. Defaults to `localhost`.
 - `EJBCA_SMTP_PORT`: SMTP Email server port. Defaults to `25`.
-- `EJBCA_SMTP_FROM_ADDRESS`: SMTP from email address. Defaults to `ejbca-donotreply@domain.com`.
+- `EJBCA_SMTP_FROM_ADDRESS`: SMTP from email address. Defaults to `user@example.com`.
 - `EJBCA_SMTP_TLS`: SMTP TLS authentication: Defaults to `false`.
 - `EJBCA_SMTP_USERNAME`: SMTP authentication username. No defaults.
 - `EJBCA_SMTP_PASSWORD`: SMTP authentication password. No defaults.
